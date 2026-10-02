@@ -1,7 +1,16 @@
+import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
+import BuildingFootprint from './components/BuildingFootprint'
+
+type ViewMode = 'perspective' | 'top'
 
 export default function App() {
+  const [view, setView] = useState<ViewMode>('perspective')
+
+  const cameraPosition: [number, number, number] =
+    view === 'top' ? [0, 24, 0.01] : [17, 15, 19]
+
   return (
     <main className="app">
       <header className="toolbar">
@@ -9,12 +18,32 @@ export default function App() {
           <p className="eyebrow">COMMERCIAL BUILDING</p>
           <h1>3D Explorer</h1>
         </div>
-        <span className="badge">Viewer setup</span>
+
+        <span className="badge">Provisional footprint</span>
       </header>
+
+      <nav className="view-controls" aria-label="Camera views">
+        <button
+          type="button"
+          aria-pressed={view === 'perspective'}
+          onClick={() => setView('perspective')}
+        >
+          Perspective
+        </button>
+
+        <button
+          type="button"
+          aria-pressed={view === 'top'}
+          onClick={() => setView('top')}
+        >
+          Top view
+        </button>
+      </nav>
 
       <section className="viewer" aria-label="Interactive 3D viewer">
         <Canvas
-          camera={{ position: [6, 5, 6], fov: 45 }}
+          key={view}
+          camera={{ position: cameraPosition, fov: 45 }}
           dpr={[1, 1.5]}
           frameloop="demand"
           fallback={<p>Your browser cannot display this 3D viewer.</p>}
@@ -22,27 +51,27 @@ export default function App() {
           <color attach="background" args={['#101827']} />
 
           <ambientLight intensity={0.8} />
-          <directionalLight position={[5, 8, 4]} intensity={2} />
+          <directionalLight position={[5, 12, 8]} intensity={2} />
 
-          <mesh position={[0, 1, 0]}>
-            <boxGeometry args={[2, 2, 2]} />
-            <meshStandardMaterial color="#6ee7b7" roughness={0.65} />
-          </mesh>
+          <BuildingFootprint />
 
-          <gridHelper args={[20, 20, '#475569', '#263244']} />
+          <gridHelper args={[30, 30, '#475569', '#263244']} />
 
           <OrbitControls
             makeDefault
-            target={[0, 1, 0]}
-            minDistance={3}
-            maxDistance={25}
-            maxPolarAngle={Math.PI / 2}
+            target={[0, 0, 0]}
+            enableRotate={view === 'perspective'}
+            minDistance={5}
+            maxDistance={45}
+            maxPolarAngle={Math.PI / 2 - 0.05}
           />
         </Canvas>
       </section>
 
       <footer className="help">
-        Drag to rotate · Scroll to zoom · Right-drag to pan
+        First-floor body outline · Grid spacing: 1 metre
+        <br />
+        Dimensions provisional · Balcony and openings pending
       </footer>
     </main>
   )
