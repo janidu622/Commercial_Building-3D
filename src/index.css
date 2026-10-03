@@ -101,3 +101,24 @@ h1 {
     padding: 10px 16px;
   }
 }
+.view-controls {
+  flex-wrap: wrap;
+}
+
+.viewer {
+  position: relative;
+  overflow: hidden;
+}
+
+.dimension-label {
+  display: block;
+  padding: 5px 8px;
+  border: 1px solid #fbbf24;
+  border-radius: 6px;
+  background: #101827;
+  color: #fde68a;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  user-select: none;
+}

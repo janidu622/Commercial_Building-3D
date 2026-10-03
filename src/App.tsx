@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import BuildingFootprint from './components/BuildingFootprint'
+import FootprintDimensions from './components/FootprintDimensions'
 
 type ViewMode = 'perspective' | 'top'
 
 export default function App() {
   const [view, setView] = useState<ViewMode>('perspective')
+  const [showMeasurements, setShowMeasurements] = useState(true)
 
   const cameraPosition: [number, number, number] =
     view === 'top' ? [0, 24, 0.01] : [17, 15, 19]
@@ -38,6 +40,13 @@ export default function App() {
         >
           Top view
         </button>
+        <button
+          type="button"
+          aria-pressed={showMeasurements}
+          onClick={() => setShowMeasurements((visible) => !visible)}
+        >
+          Measurements {showMeasurements ? 'on' : 'off'}
+        </button>
       </nav>
 
       <section className="viewer" aria-label="Interactive 3D viewer">
@@ -54,6 +63,7 @@ export default function App() {
           <directionalLight position={[5, 12, 8]} intensity={2} />
 
           <BuildingFootprint />
+          {showMeasurements && <FootprintDimensions />}
 
           <gridHelper args={[30, 30, '#475569', '#263244']} />
 
