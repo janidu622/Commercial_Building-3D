@@ -43,3 +43,23 @@ export const sectionDimensions = {
   status: 'DRAWING_LABELS_CONFIRMED',
   floorElevationsStatus: 'PENDING_SLAB_AND_DATUM_RECONCILIATION',
 } as const
+// Shop 1 partition study.
+// Labelled dimensions: original PDF page 9.
+// Placement assumes dimensions can be referenced from the outer body.
+// Wall-face offsets have NOT been reconciled.
+
+export const shop1Study = {
+  width: 4.35,
+  depth: 5.22,
+  rightShopWidth: 4.33,
+  height: sectionDimensions.firstStorey.printedMetres,
+  status: 'UNVERIFIED_PLACEMENT',
+} as const
+export const shop1DoorStudy = {
+  type: 'TGD1',
+  width: 1.22,
+  height: 2.6,
+  centreOffset: 0,
+  source: 'Original PDF page 12 — door/window schedule',
+  status: 'SCHEDULE_SIZE_CONFIRMED_POSITION_UNVERIFIED',
+} as const
